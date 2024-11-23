@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scatter Plot</title>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <style>
+        .box {
+            display: flex;
+            margin: auto;
+        }
+        .alert {
+            width: 25%;
+            padding: 4px;
+            border: 1px solid red;
+            
+        }
+    </style>
+</head>
+
+<body>
+    <p class="box alert">
+        Exemplo simples de como manipular o documento para criar um Scatter Plot.
+    </p>
+
+    <script>
+
+        window.colorsSetup = {
+            SpringGreen: "#00FF7F",
+            DarkViolet: "#9400D3",
+            DimGray: "#696969",
+        }
+
+        const dataset = [
+            [34, 78],
+            [109, 280],
+            [310, 120],
+            [79, 411],
+            [420, 220],
+            [233, 145],
+            [333, 96],
+            [222, 333],
+            [78, 320],
+            [21, 123]
+        ];
+
+        const w = 500;
+        const h = 500;
+        const padding = 60;
+
+        const xScale = d3.scaleLinear()
+            .domain([0, d3.max(dataset, (d) => d[0])])
+            .range([padding, w - padding]);
+
+        const yScale = d3.scaleLinear()
+            .domain([0, d3.max(dataset, (d) => d[1])])
+            .range([h - padding, padding]);
+
+        const svg = d3.select("body")
+            .append("svg")
+            .attr("width", w)
+            .attr("height", h)
+            .attr("class", "box");
+
+        svg.selectAll("circle")
+            .data(dataset)
+            .enter()
+            .append("circle")
+            .attr("cx", (d) => xScale(d[0]))
+            .attr("cy", (d) => yScale(d[1]))
+            .attr("r", (d) => 5)
+            .style("fill", window.colorsSetup.SpringGreen);
+
+        svg.selectAll("text")
+            .data(dataset)
+            .enter()
+            .append("text")
+            .text((d) => (d[0] + "," + d[1]))
+            .style("fill", window.colorsSetup.DimGray)
+            .attr("x", (d) => xScale(d[0] + 10))
+            .attr("y", (d) => yScale(d[1]));
+
+        const xAxis = d3.axisBottom(xScale);
+        // Adicione o código abaixo desta linha
+        const yAxis = d3.axisLeft(yScale);
+        // Adicione o código acima desta linha
+
+        svg.append("g")
+            .attr("transform", "translate(0," + (h - padding) + ")")
+            .call(xAxis);
+
+        // Adicione o código abaixo desta linha
+
+        svg.append("g")
+            .attr("transform", "translate(" + (padding) + ", 0)")
+            .call(yAxis);
+
+        // Adicione o código acima desta linha
+
+    </script>
+</body>
+
+</html>

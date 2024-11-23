@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barchart</title>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <style>
+        .bar {
+            width: 25px;
+            height: 100px;
+            margin: 2px;
+            display: inline-block;
+            background-color: blue;
+        }
+
+        .bar:hover {
+            fill: brown;
+        }
+
+        .box {
+            width: 25%;
+            padding: 4px;
+            border: 1px solid red;
+            margin: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <p class="box">
+        Exemplo simples de como manipular o documento para criar um barchart.
+    </p>
+
+
+
+    <script>
+
+
+        const dataset = [12, 31, 22, 17, 25, 18, 29, 14, 9];
+
+        const w = 500;
+        const h = 100;
+
+        const svg = d3.select("body")
+            .append("svg")
+            .attr("width", w)
+            .attr("height", h);
+
+        svg.selectAll("rect")
+            .data(dataset)
+            .enter()
+            .append("rect")
+            .attr("x", (d, i) => i * 30)
+            .attr("y", (d, i) => h - 3 * d)
+            .attr("width", 25)
+            .attr("height", (d, i) => 3 * d)
+            .attr("fill", "navy")
+            .attr("class", "bar")
+
+
+        svg.selectAll("text")
+            .data(dataset)
+            .enter()
+            .append("text")
+            .text((d) => d)
+            .attr("x", (d, i) => i * 30) //alinhando no eixo x
+            .attr("y", (d, i) => h - (3 * d) - 3); //posicionando 3 unidades acima do retangulo
+    </script>
+
+</body>
+
+</html>
